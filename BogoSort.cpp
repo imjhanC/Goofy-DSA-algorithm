@@ -32,19 +32,29 @@ void bogoSort(std::vector<int> &arr)
     while (!isSorted(arr))
     {
         shuffleArray(arr);
-        system("clear"); // Clear screen
+
+        // Clear screen
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
+
+        // Print the array
         for (size_t i = 0; i < arr.size(); ++i)
         {
             std::cout << arr[i] << " ";
         }
         std::cout << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Pause for visualization
+
+        // Pause for visualization
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
 int main()
 {
-    const int SIZE = 16;
+    const int SIZE = 500000;
     std::vector<int> arr(SIZE);
 
     // Generate random values
