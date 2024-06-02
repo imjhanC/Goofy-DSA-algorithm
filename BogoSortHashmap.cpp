@@ -1,17 +1,18 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
 #include <thread>
 
 // Function to check if the array is sorted
-bool isSorted(const std::vector<int> &arr)
+bool isSorted(const std::vector<std::pair<int, int>> &arr)
 {
     for (size_t i = 1; i < arr.size(); ++i)
     {
-        if (arr[i] < arr[i - 1])
+        if (arr[i].first < arr[i - 1].first)
         {
             return false;
         }
@@ -20,13 +21,13 @@ bool isSorted(const std::vector<int> &arr)
 }
 
 // Function to shuffle the array randomly
-void shuffleArray(std::vector<int> &arr)
+void shuffleArray(std::vector<std::pair<int, int>> &arr)
 {
     std::random_shuffle(arr.begin(), arr.end());
 }
 
 // Function to perform Bogo Sort
-void bogoSort(std::vector<int> &arr)
+void bogoSort(std::vector<std::pair<int, int>> &arr)
 {
     srand(time(0)); // Seed for random number generation
     while (!isSorted(arr))
@@ -43,7 +44,7 @@ void bogoSort(std::vector<int> &arr)
         // Print the array
         for (size_t i = 0; i < arr.size(); ++i)
         {
-            std::cout << arr[i] << " ";
+            std::cout << arr[i].first << " ";
         }
         std::cout << std::endl;
 
@@ -55,12 +56,12 @@ void bogoSort(std::vector<int> &arr)
 int main()
 {
     const int SIZE = 3;
-    std::vector<int> arr(SIZE);
+    std::vector<std::pair<int, int>> arr(SIZE);
 
     // Generate random values
     for (int i = 0; i < SIZE; ++i)
     {
-        arr[i] = rand() % 1000; // Values between 0 and 999
+        arr[i] = {rand() % 1000, i}; // Values between 0 and 999
     }
 
     auto startTime = std::chrono::high_resolution_clock::now(); // Start time

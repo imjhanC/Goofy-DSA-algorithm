@@ -6,6 +6,37 @@
 #include <chrono>
 #include <thread>
 
+// Function to clear screen
+void clearScreen()
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+// Function to display GUI
+void displayGUI(const std::vector<int> &arr)
+{
+    clearScreen();
+
+    // Print title
+    std::cout << "Bogo Sort Visualization" << std::endl;
+    std::cout << "-----------------------" << std::endl;
+
+    // Print array
+    std::cout << "Array: ";
+    for (size_t i = 0; i < arr.size(); ++i)
+    {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // Sleep for visualization
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+}
+
 // Function to check if the array is sorted
 bool isSorted(const std::vector<int> &arr)
 {
@@ -22,6 +53,7 @@ bool isSorted(const std::vector<int> &arr)
 // Function to shuffle the array randomly
 void shuffleArray(std::vector<int> &arr)
 {
+    srand(time(0));
     std::random_shuffle(arr.begin(), arr.end());
 }
 
@@ -32,29 +64,13 @@ void bogoSort(std::vector<int> &arr)
     while (!isSorted(arr))
     {
         shuffleArray(arr);
-
-        // Clear screen
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
-
-        // Print the array
-        for (size_t i = 0; i < arr.size(); ++i)
-        {
-            std::cout << arr[i] << " ";
-        }
-        std::cout << std::endl;
-
-        // Pause for visualization
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        displayGUI(arr);
     }
 }
 
 int main()
 {
-    const int SIZE = 3;
+    const int SIZE = 5; // Adjust array size as needed
     std::vector<int> arr(SIZE);
 
     // Generate random values
@@ -63,14 +79,9 @@ int main()
         arr[i] = rand() % 1000; // Values between 0 and 999
     }
 
-    auto startTime = std::chrono::high_resolution_clock::now(); // Start time
-
     bogoSort(arr);
 
-    auto endTime = std::chrono::high_resolution_clock::now(); // End time
-    std::chrono::duration<double> duration = endTime - startTime;
-
-    std::cout << "Bogo Sort completed in " << duration.count() << " seconds." << std::endl;
+    std::cout << "Bogo Sort completed!" << std::endl;
 
     return 0;
 }
